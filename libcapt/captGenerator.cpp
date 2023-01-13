@@ -45,10 +45,9 @@ const char Generator::CURVES_DATA[Generator::CURVES_LENGTH] =
 {0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57,59,62,65,67,70,73,75,78,80,82,85,87,89,91,94,96,98,100,102,103,105,107,108,110,112,113,114,116,117,118,119,120,121,122,123,123,124,125,125,126,126,126,126,126,127,126,126,126,126,126,125,125,124,123,123,122,121,120,119,118,117,116,114,113,112,110,108,107,105,103,102,100,98,96,94,91,89,87,85,82,80,78,75,73,70,67,65,62,59,57,54,51,48,45,42,39,36,33,30,27,24,21,18,15,12,9,6,3,0,-3,-6,-9,-12,-15,-18,-21,-24,-27,-30,-33,-36,-39,-42,-45,-48,-51,-54,-57,-59,-62,-65,-67,-70,-73,-75,-78,-80,-82,-85,-87,-89,-91,-94,-96,-98,-100,-102,-103,-105,-107,-108,-110,-112,-113,-114,-116,-117,-118,-119,-120,-121,-122,-123,-123,-124,-125,-125,-126,-126,-126,-126,-126,-127,-126,-126,-126,-126,-126,-125,-125,-124,-123,-123,-122,-121,-120,-119,-118,-117,-116,-114,-113,-112,-110,-108,-107,-105,-103,-102,-100,-98,-96,-94,-91,-89,-87,-85,-82,-80,-78,-75,-73,-70,-67,-65,-62,-59,-57,-54,-51,-48,-45,-42,-39,-36,-33,-30,-27,-24,-21,-18,-15,-12,-9,-6,-3,};
 
 //-------------------------------------------------------------------------------------------------
-Generator::Generator(FontFile* fontFile)
+Generator::Generator(const FontFile& fontFile)
 	: m_fontFile(fontFile)
 {
-	assert(m_fontFile);
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -67,7 +66,7 @@ int Generator::_drawCharacter(int codeIndex, int x_pos, int y_pos, IMAGE_BUF& im
 	int sk2 = _sk2 + x_pos;
 	int mpos = x_pos;
 	int row=0;
-	for(char *fntGlyph = m_fontFile->getCodeGlyphFromIndex(codeIndex); *fntGlyph!=FontFile::GLPYH_EOF; fntGlyph++) 
+	for(char *fntGlyph = m_fontFile.getCodeGlyphFromIndex(codeIndex); *fntGlyph!=FontFile::GLPYH_EOF; fntGlyph++) 
 	{
 		if(*fntGlyph<0) 
 		{
@@ -191,7 +190,7 @@ void Generator::_blur(IMAGE_BUF& imageBuf)
 void Generator::_generatorAnswer(Question& question, unsigned int* answerIndex)
 {
 	//总共可以使用的字符数量
-	int totalFontCounts = m_fontFile->getCodeCounts();
+	int totalFontCounts = m_fontFile.getCodeCounts();
 	const int codeCounts = Question::ANASWER_LENGTH*4;
 	int codeIndex[codeCounts] = {0};
 
@@ -226,10 +225,10 @@ void Generator::_generatorAnswer(Question& question, unsigned int* answerIndex)
 	//获取，四个答案所代表的字符串
 	for(int i=0; i<4; i++)
 	{
-		question.wAnswer0[i] = m_fontFile->getCodeFromIndex(codeIndex[i*4+0]);
-		question.wAnswer1[i] = m_fontFile->getCodeFromIndex(codeIndex[i*4+1]);
-		question.wAnswer2[i] = m_fontFile->getCodeFromIndex(codeIndex[i*4+2]);
-		question.wAnswer3[i] = m_fontFile->getCodeFromIndex(codeIndex[i*4+3]);
+		question.wAnswer0[i] = m_fontFile.getCodeFromIndex(codeIndex[i*4+0]);
+		question.wAnswer1[i] = m_fontFile.getCodeFromIndex(codeIndex[i*4+1]);
+		question.wAnswer2[i] = m_fontFile.getCodeFromIndex(codeIndex[i*4+2]);
+		question.wAnswer3[i] = m_fontFile.getCodeFromIndex(codeIndex[i*4+3]);
 
 		answerIndex[i] = codeIndex[i*4+question.nCorrectAnswer];
 	}

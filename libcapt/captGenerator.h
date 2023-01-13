@@ -71,10 +71,10 @@ private:
 	
 
 private:
-	FontFile* m_fontFile;	//!< 字体文件
+	const FontFile& m_fontFile;	//!< 字体文件
 
 public:
-	Generator(FontFile* fontFile);
+	Generator(const FontFile& fontFile);
 	~Generator();
 };
 

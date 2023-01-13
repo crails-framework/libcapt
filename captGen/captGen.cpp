@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 	//产生一个图灵测试问题
 	srand((unsigned int)time(0));
 	libCapt::Question question;
-	libCapt::Generator generator(&fontFile);
+	libCapt::Generator generator(fontFile);
 	generator.generateQuestion(question);
 		
 	
