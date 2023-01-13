@@ -11,13 +11,15 @@ class FontFile;
 struct Question
 {
 	/// 备选答案长度
-	enum { ANASWER_LENGTH = 4 };			
+	enum { ANSWER_LENGTH = 4, ANSWER_COUNT = 4 };
 	/// 图片尺寸
 	enum { IMAGE_WIDTH=256, IMAGE_HEIGHT=64, IMAGE_PITCH=IMAGE_WIDTH>>1 };
 	/// 图片需要的内存字节(未压缩状态)
 	enum { IMAGE_BUF_LENGTH = IMAGE_PITCH*IMAGE_HEIGHT };
 	/// 图片经过压缩标记
 	enum { FLAG_RLE = 1<<16, };
+
+	unsigned short answer_length = 4;
 
 	/// 是否是经过rle压缩
 	inline bool isCompressed(void) const { return (nFlags & FLAG_RLE) !=0; }
@@ -27,16 +29,15 @@ struct Question
 	/// 数据flag, 低四位是图片内存长度，高四位是图片格式描述(是否压缩)
 	unsigned int nFlags;
 	/// 备选的四个答案
-	unsigned short	wAnswer0[ANASWER_LENGTH];		//备选答案0
-	unsigned short	wAnswer1[ANASWER_LENGTH];		//备选答案1
-	unsigned short	wAnswer2[ANASWER_LENGTH];		//备选答案2
-	unsigned short	wAnswer3[ANASWER_LENGTH];		//备选答案3
+	unsigned short answers[ANSWER_COUNT][ANSWER_LENGTH];
 	/// 图片数据
 	unsigned char imageBuf[IMAGE_BUF_LENGTH];
 
+	const unsigned short* answer() const { return nCorrectAnswer >= 0 ? answers[nCorrectAnswer] : nullptr; }
+
 	//---------------------------
 	//正确的答案编号[0, 1, 2, 3]
-	int	nCorrectAnswer;
+	int	nCorrectAnswer = -1;
 };
 
 /** 生成一份图灵测试数据

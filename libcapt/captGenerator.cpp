@@ -191,7 +191,7 @@ void Generator::_generatorAnswer(Question& question, unsigned int* answerIndex)
 {
 	//总共可以使用的字符数量
 	int totalFontCounts = m_fontFile.getCodeCounts();
-	const int codeCounts = Question::ANASWER_LENGTH*4;
+	const int codeCounts = Question::ANSWER_LENGTH*4;
 	int codeIndex[codeCounts] = {0};
 
 	for(int i=0; i<codeCounts; i++)
@@ -223,14 +223,11 @@ void Generator::_generatorAnswer(Question& question, unsigned int* answerIndex)
 	question.nCorrectAnswer = RAND()%4;
 
 	//获取，四个答案所代表的字符串
-	for(int i=0; i<4; i++)
+	for(int i = 0 ; i < Question::ANSWER_LENGTH ; ++i)
 	{
-		question.wAnswer0[i] = m_fontFile.getCodeFromIndex(codeIndex[i*4+0]);
-		question.wAnswer1[i] = m_fontFile.getCodeFromIndex(codeIndex[i*4+1]);
-		question.wAnswer2[i] = m_fontFile.getCodeFromIndex(codeIndex[i*4+2]);
-		question.wAnswer3[i] = m_fontFile.getCodeFromIndex(codeIndex[i*4+3]);
-
-		answerIndex[i] = codeIndex[i*4+question.nCorrectAnswer];
+	  for (int ii = 0 ; ii < Question::ANSWER_COUNT ; ++ii)
+	    question.answers[ii][i] = m_fontFile.getCodeFromIndex(codeIndex[i * Question::ANSWER_LENGTH + ii]);
+	  answerIndex[i] = codeIndex[i * Question::ANSWER_LENGTH + question.nCorrectAnswer];
 	}
 }
 
@@ -243,7 +240,7 @@ void Generator::generateQuestion(Question& question)
 	memset(imageBuf, 0xff, sizeof(imageBuf)); 
 
 	//生成字符索引
-	unsigned answerIndex[Question::ANASWER_LENGTH];
+	unsigned answerIndex[Question::ANSWER_LENGTH];
 	_generatorAnswer(question, answerIndex);
 
 	//起始x坐标
@@ -254,7 +251,7 @@ void Generator::generateQuestion(Question& question)
 	int sk1 = RAND() & 0x7f; 
 	int sk2 = RAND() & 0x3f; 
 
-	for(int i=0; i<Question::ANASWER_LENGTH; i++)
+	for(int i=0; i<Question::ANSWER_LENGTH; i++)
 	{
 		x_offset = _drawCharacter(answerIndex[i], x_offset, y_offset, imageBuf, sk1, sk2); 
 	}
