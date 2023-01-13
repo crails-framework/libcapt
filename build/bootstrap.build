@@ -1,0 +1,7 @@
+project = libcapt
+
+using version
+using config
+using test
+using install
+using dist

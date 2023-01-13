@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <memory.h>
-#include <captGenerator.h>
-#include <captFontFile.h>
-#include <captRLE.h>
+#include <libcapt/captGenerator.h>
+#include <libcapt/captFontFile.h>
+#include <libcapt/captRLE.h>
 
 
 #pragma pack(push, 1)

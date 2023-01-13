@@ -1,0 +1,28 @@
+lib{capt}: {hxx ixx txx cxx}{**} $impl_libs $intf_libs
+
+hxx{export}@./: cxx.importable = false
+
+cxx.poptions =+ "-I$out_root" "-I$src_root"
+
+{hbmia obja}{*}: cxx.poptions += -DLIBCAPT_STATIC_BUILD
+{hbmis objs}{*}: cxx.poptions += -DLIBCAPT_SHARED_BUILD
+
+lib{capt}:
+{
+  cxx.export.poptions = "-I$out_root" "-I$src_root"
+  cxx.export.libs = $intf_libs
+}
+
+liba{capt}: cxx.export.poptions += -DLIBCAPT_STATIC
+libs{capt}: cxx.export.poptions += -DLIBCAPT_SHARED
+
+if $version.pre_release
+  lib{capt}: bin.lib.version = "-$version.project_id"
+else
+  lib{capt}: bin.lib.version = "-$version.major.$version.minor"
+
+{hxx ixx txx}{*}:
+{
+  install         = include/libcapt/
+  install.subdirs = true
+}

@@ -1,0 +1,4 @@
+libs =
+import libs += libcapt%lib{capt}
+
+exe{captGen}: {hxx ixx txx cxx}{**} $libs

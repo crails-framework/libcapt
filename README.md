@@ -9,3 +9,26 @@ libcapt have a gui tool(captUtil) to generate special font file(cpf file) used b
 <img src="http://thecodeway.com/blog/wp-content/uploads/2014/10/libcapt_demo3.gif"></img>
 
 libcapt is portable and can be compiled at windows and linux, enjoy it!
+
+# How to install
+
+This release of libcapt relies on the amazing `build2` build system. If you haven't installed it yet, the following lines will do the trick :
+```
+curl -sSfO https://download.build2.org/0.15.0/build2-install-0.15.0.sh
+chmod +x build2-install-0.15.0.sh
+sh build2-install-0.15.0.sh
+```
+
+And here's how to build crails from scratch:
+```
+bpkg create -d crails-build-gcc cc config.cxx=g++
+cd crails-build-gcc
+bpkg add 'https://github.com/crails-framework/libcapt.git#master'
+bpkg fetch
+bpkg build libcapt
+bpkg install --all --recursive config.install.root=/usr/local config.install.sudo=sudo
+```
+
+# How to use
+
+TODO

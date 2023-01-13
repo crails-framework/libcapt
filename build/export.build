@@ -1,0 +1,6 @@
+$out_root/
+{
+  include libcapt/
+}
+
+export $out_root/libcapt/$import.target
